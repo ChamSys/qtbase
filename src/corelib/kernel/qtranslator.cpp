@@ -315,6 +315,7 @@ public:
     uint offsetLength;
     uint contextLength;
     uint numerusRulesLength;
+    QString filepath;
 
     bool do_load(const QString &filename, const QString &directory);
     bool do_load(const uchar *data, qsizetype len, const QString &directory);
@@ -522,6 +523,7 @@ bool QTranslatorPrivate::do_load(const QString &realname, const QString &directo
 {
     QTranslatorPrivate *d = this;
     bool ok = false;
+    filepath.clear();
 
     if (realname.startsWith(QLatin1Char(':'))) {
         // If the translation is in a non-compressed resource file, the data is already in
@@ -597,8 +599,10 @@ bool QTranslatorPrivate::do_load(const QString &realname, const QString &directo
         }
     }
 
-    if (ok && d->do_load(reinterpret_cast<const uchar *>(d->unmapPointer), d->unmapLength, directory))
+    if (ok && d->do_load(reinterpret_cast<const uchar *>(d->unmapPointer), d->unmapLength, directory)) {
+        filepath = realname;
         return true;
+    }
 
 #if defined(QT_USE_MMAP)
     if (used_mmap) {
@@ -1087,6 +1091,7 @@ void QTranslatorPrivate::clear()
     contextLength = 0;
     offsetLength = 0;
     numerusRulesLength = 0;
+    filepath.clear();
 
     qDeleteAll(subTranslators);
     subTranslators.clear();
@@ -1130,6 +1135,16 @@ bool QTranslator::isEmpty() const
     Q_D(const QTranslator);
     return !d->messageArray && !d->offsetArray && !d->contextArray
             && d->subTranslators.isEmpty();
+}
+
+/*!
+ * \brief The full path of the file that this QTranslator object loaded
+ * \return Empty string if the QTranslator is empty, or it was loaded from data.
+ */
+QString QTranslator::filepath() const
+{
+  Q_D(const QTranslator);
+  return d->filepath;
 }
 
 QT_END_NAMESPACE
