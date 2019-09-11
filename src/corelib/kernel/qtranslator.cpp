@@ -1138,13 +1138,22 @@ bool QTranslator::isEmpty() const
 }
 
 /*!
- * \brief The full path of the file that this QTranslator object loaded
- * \return Empty string if the QTranslator is empty, or it was loaded from data.
+ * \brief The full path of the file that this translator loaded
+ * \return Empty string if this translator is empty, or it was loaded from data.
  */
 QString QTranslator::filepath() const
 {
   Q_D(const QTranslator);
   return d->filepath;
+}
+
+/*!
+ * Clear the data in this translator and release resources.
+ */
+void QTranslator::clear()
+{
+  Q_D(QTranslator);
+  d->clear();
 }
 
 QT_END_NAMESPACE
