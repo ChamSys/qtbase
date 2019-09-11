@@ -1154,6 +1154,15 @@ QString QTranslator::filePath() const
     return d->filePath;
 }
 
+/*!
+ * Clear the data in this translator and release resources.
+ */
+void QTranslator::clear()
+{
+  Q_D(QTranslator);
+  d->clear();
+}
+
 QT_END_NAMESPACE
 
 #include "moc_qtranslator.cpp"

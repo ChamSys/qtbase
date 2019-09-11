@@ -51,6 +51,8 @@ QT_BEGIN_NAMESPACE
 class QLocale;
 class QTranslatorPrivate;
 
+#define HAS_QTRANSLATOR_CLEAR_METHOD
+
 class Q_CORE_EXPORT QTranslator : public QObject
 {
     Q_OBJECT
@@ -62,6 +64,7 @@ public:
                               const char *disambiguation = nullptr, int n = -1) const;
 
     virtual bool isEmpty() const;
+    virtual void clear();
 
     QString language() const;
     QString filePath() const;
