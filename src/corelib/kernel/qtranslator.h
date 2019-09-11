@@ -51,6 +51,9 @@ QT_BEGIN_NAMESPACE
 class QLocale;
 class QTranslatorPrivate;
 
+#define HAS_QTRANSLATOR_FILEPATH_METHOD
+#define HAS_QTRANSLATOR_CLEAR_METHOD
+
 class Q_CORE_EXPORT QTranslator : public QObject
 {
     Q_OBJECT
@@ -65,6 +68,7 @@ public:
 
     QString language() const;
     QString filePath() const;
+    virtual void clear();
 
     bool load(const QString & filename,
               const QString & directory = QString(),
